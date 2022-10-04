@@ -14,6 +14,11 @@ library(tidyverse)
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
+``` r
+library(readxl)
+library(haven)
+```
+
 ## Read in some data
 
 Read in the litters dataset.
@@ -125,3 +130,62 @@ Data summary
 | pups_born_alive |         0 |          1.00 |  7.35 | 1.76 |  3.0 |  6.00 |  8.00 |  8.00 | 11.0 | ▁▃▂▇▁ |
 | pups_dead_birth |         0 |          1.00 |  0.33 | 0.75 |  0.0 |  0.00 |  0.00 |  0.00 |  4.0 | ▇▂▁▁▁ |
 | pups_survive    |         0 |          1.00 |  6.41 | 2.05 |  1.0 |  5.00 |  7.00 |  8.00 |  9.0 | ▁▃▂▇▇ |
+
+## Options to read_csv
+
+``` r
+litters_df = read_csv("./data_import_examples/FAS_litters.csv", skip = 10, col_names = FALSE, na = c("", "NA", "."))
+```
+
+    ## Rows: 40 Columns: 8
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): X1, X2
+    ## dbl (6): X3, X4, X5, X6, X7, X8
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+check out “?read_csv()” for more information.
+
+## other file formats
+
+Read in an excel file
+
+``` r
+mlb_df = read_excel("./data_import_examples/mlb11.xlsx", range = "A1:F7")
+mlb_df
+```
+
+    ## # A tibble: 6 × 6
+    ##   team                 runs at_bats  hits homeruns bat_avg
+    ##   <chr>               <dbl>   <dbl> <dbl>    <dbl>   <dbl>
+    ## 1 Texas Rangers         855    5659  1599      210   0.283
+    ## 2 Boston Red Sox        875    5710  1600      203   0.28 
+    ## 3 Detroit Tigers        787    5563  1540      169   0.277
+    ## 4 Kansas City Royals    730    5672  1560      129   0.275
+    ## 5 St. Louis Cardinals   762    5532  1513      162   0.273
+    ## 6 New York Mets         718    5600  1477      108   0.264
+
+Read in a SAS file
+
+``` r
+pulse_df = read_sas("./data_import_examples/public_pulse_data.sas7bdat")
+pulse_df
+```
+
+    ## # A tibble: 1,087 × 7
+    ##       ID   age Sex    BDIScore_BL BDIScore_01m BDIScore_06m BDIScore_12m
+    ##    <dbl> <dbl> <chr>        <dbl>        <dbl>        <dbl>        <dbl>
+    ##  1 10003  48.0 male             7            1            2            0
+    ##  2 10015  72.5 male             6           NA           NA           NA
+    ##  3 10022  58.5 male            14            3            8           NA
+    ##  4 10026  72.7 male            20            6           18           16
+    ##  5 10035  60.4 male             4            0            1            2
+    ##  6 10050  84.7 male             2           10           12            8
+    ##  7 10078  31.3 male             4            0           NA           NA
+    ##  8 10088  56.9 male             5           NA            0            2
+    ##  9 10091  76.0 male             0            3            4            0
+    ## 10 10092  74.2 female          10            2           11            6
+    ## # … with 1,077 more rows
+    ## # ℹ Use `print(n = ...)` to see more rows
